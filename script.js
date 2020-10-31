@@ -67,6 +67,8 @@ function addClickEventFunc(element,i) {
             
                // title1.innerHTML = this.id;
 
+               
+
                title1.innerHTML = localVar.values[i][2];
                description1.innerHTML = localVar.values[i][3];
                email.innerHTML = localVar.values[i][9];
@@ -88,7 +90,7 @@ function addClickEventFunc(element,i) {
       
 
 
-       
+       addAnimation(element,i);
 
 
 
@@ -182,14 +184,21 @@ async function myasync () {
 
 
 
+}
 
 
+function addAnimation(element,i){
+
+  let tempDiv300 = element.querySelectorAll(".childreninsidecontainer");
+  //tempDiv300[0].id = "childreninternal"+i;
+
+  
 
 
-
-
-
-
-
-
+  if( i == 0 || i%2 == 0){
+    
+    tempDiv300[0].classList.add("childrenrollleft");
+  }else {
+    tempDiv300[0].classList.add("childrenrollright");
+  }
 }

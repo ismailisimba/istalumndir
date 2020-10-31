@@ -3,6 +3,14 @@ html {
 }
 
 
+
+#linebreak {
+
+    display: block;
+    width: 100%;
+}
+
+
 #mother-container{
 
     background-color: transparent;
@@ -75,42 +83,15 @@ html {
     
 }
 
-#childreninternalone, #childreninternalthree, #childreninternalfive , #childreninternalseven, #childreninternalnine{
-
-    animation: backgroundincome 27s cubic-bezier(0.645, 0.045, 0.355, 1) 1s infinite forwards;
-
-}
 
 
 
 
 
-@keyframes backgroundincome{
-
-    0%{
-        left: 0px;
-    }
-
-    25%{
-        left: -100%;
-    }
-  
-    50%{
-        left: -200%
-    }
-
-    
-    75%{
-        left: -100%;
-    }
-
-    99%{
-        left: 0px;
-    }
-  
-}
 
 
+
+/*
 #childreninternaltwo, #childreninternalfour, #childreninternalsix, #childreninternaleight{
 
     left: -200%;
@@ -119,8 +100,29 @@ html {
 
 }
 
+#childreninternalone, #childreninternalthree, #childreninternalfive , #childreninternalseven, #childreninternalnine{
 
+    animation: backgroundincome 27s cubic-bezier(0.645, 0.045, 0.355, 1) 1s infinite forwards;
 
+}
+
+*/
+
+.childrenrollright{
+
+    left: -200%;
+
+    animation: dopeani 27s cubic-bezier(0.645, 0.045, 0.355, 1) 1s infinite forwards;
+
+}
+
+.childrenrollleft{
+
+    left: 0px;
+
+    animation: backgroundincome 27s cubic-bezier(0.645, 0.045, 0.355, 1) 1s infinite forwards;
+
+}
 
 
 @keyframes dopeani{
@@ -149,6 +151,31 @@ html {
 }
 
 
+
+@keyframes backgroundincome{
+
+    0%{
+        left: 0px;
+    }
+
+    25%{
+        left: -100%;
+    }
+  
+    50%{
+        left: -200%
+    }
+
+    
+    75%{
+        left: -100%;
+    }
+
+    99%{
+        left: 0px;
+    }
+  
+}
 
 
 
@@ -209,6 +236,8 @@ html {
     top:0px;
     
 }
+
+
 
 #childreninternalone .buzlogo {
 
@@ -516,7 +545,22 @@ html {
 #detailedmenu{
 
     display: block;
-    position: absolute;
+    position: fixed;
+
+    width: 100%;
+
+   min-height: 300px;
+
+    visibility: hidden;
+    z-index: 30;
+
+    
+}
+
+#insidedetailed {
+
+    display: block;
+    position: fixed;
 
     display: flex;
     flex-flow: column;
@@ -525,13 +569,13 @@ html {
     justify-content: flex-start;
     align-items: center;
 
-    top: 25px;
+    top: 75px;
     left: 25%;
     width: 50%;
     min-width: 320px;
-    min-height: 500px;
+    height: 600px;
 
-    padding: 12px 18px;
+    padding: 12px 36px;
 
     box-sizing: border-box;
 
@@ -542,8 +586,12 @@ html {
     
     overflow-y: scroll;
 
-    z-index: 30;
-    visibility: hidden;
+    
+
+   
+    
+
+
 }
 
 #closearrow{
@@ -551,12 +599,17 @@ html {
     font-weight: 500;
     font-size: 24px;
 
+    
+
     display: block;
     position: absolute;
     user-select: none;
 
-    right: 15px;
-    top: 5px;
+    margin: 5px 5px;
+
+    
+    top: 12px;
+    right: 18px;
 }
 
 #detailedmenu p {
@@ -571,7 +624,54 @@ html {
     margin-block-start: 6px;
     margin-block-end: -9px;
     margin-inline-start: 0px;
+    padding-top: 16px;
     margin-inline-end: 0px;
+    
+}
+
+#businfo h2 {
+    
+    
+padding-bottom: 16px;
+text-align: left;
+    
+}
+
+#businfo hr {
+    
+    
+    margin-top: -15px;
+    color: #febd3d;
+
+    width: 100%;
+    border: 1.5px solid;
+    
+        
+    }
+
+#linebreak hr {
+   
+    color: #febd3d;
+
+    width: 100%;
+    border: 1.5px solid;
+
+}
+
+#descriptionbuzbox{
+
+    color:white;
+}
+
+#descriptionalumbox{
+
+    color:white;
+    padding-top: 14px;
+}
+
+#alumname{
+    color: #76bc43;
+    font-weight: bold;
     
 }
 
@@ -580,6 +680,7 @@ html {
     display: block;
     margin-top: 6px;
     letter-spacing: 1.5px;
+    font-size: 14px;
 }
 
 #location h2{
@@ -590,7 +691,7 @@ html {
 
 #detailedmenu h3 {
 
-    margin-block-start: 36px;
+    margin-block-start: 24px;
     margin-block-end: -9px;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
@@ -604,7 +705,8 @@ html {
     height: 200px;
     background-color: #76bc43;
 
-    margin-top: 25px;
+    margin-top: 35px;
+    margin-bottom: 35px;
 }
 
 #map-div iframe{
@@ -661,10 +763,11 @@ html {
     min-width: 250px;
 }
 
-#detailedmenu {
+#insidedetailed {
 
     width: 100%;
     left: 0px;
+    top: 0px;
   
 }
 
