@@ -25,10 +25,12 @@ document.getElementById("closearrow").addEventListener("click", function () {
   hiddenMenu.style.visibility = "hidden";
 });
 
+let spanNumall = document.getElementById("letitular").querySelectorAll("span");
 let motherDiv = document.getElementById("mother-container");
 let tempDiv2 = document.getElementById("closearrow");
 let tempDiv = hiddenMenu;
 let reqString = "https://script.google.com/macros/s/AKfycbwePxUUAJRuhfdsKMe7ghiJYxEBSeroek9Z6xAA49XnjjN5cdY/exec"
+
 
 
 
@@ -39,9 +41,7 @@ function mainFunc () {
  //  addClickEventFunc();
 
    fetchInfoWithFilter ();
-   
-
- myasync();
+    myasync();
 
 
 
@@ -160,11 +160,12 @@ async function myasync () {
   motherDiv.innerHTML = "";
 
   let boxes = localVar.lastrow;
+  spanNumall[0].innerHTML = (localVar.lastrow-1);
   boxes--;
 
  // motherDiv.appendChild(tempclone);
 
-  for (let i=0; i<boxes; i++){
+  /*for (let i=0; i<boxes; i++){
 
     tempclone = tempDiv.cloneNode(true);
     tempclone.id = "childnumindex"+i;
@@ -174,7 +175,9 @@ async function myasync () {
     addClickEventFunc(tempclone,i);
 
     
-  }
+  }*/
+
+  populatingBoxes (boxes, tempDiv);
 
 
 
@@ -200,5 +203,35 @@ function addAnimation(element,i){
     tempDiv300[0].classList.add("childrenrollleft");
   }else {
     tempDiv300[0].classList.add("childrenrollright");
+  }
+}
+
+
+function populatingBoxes (boxes, tempDiv) {
+
+  for (let i=0; i<boxes; i++){
+
+   var  tempclone = tempDiv.cloneNode(true);
+    tempclone.id = "childnumindex"+i;
+
+    motherDiv.appendChild(tempclone);
+
+    let logopicdiv = tempclone.querySelectorAll(".buzlogo");
+    let mainpicdiv = tempclone.querySelectorAll(".children:last-child");
+    let biopicdiv = tempclone.querySelectorAll(".profpic");
+    let catchphrasediv = tempclone.querySelectorAll(".catchphrase");
+    let bionamediv = tempclone.querySelectorAll(".profname");
+    let classofdiv = tempclone.querySelectorAll(".classOf");
+
+    logopicdiv[0].style.backgroundImage = `url("${localVar.values[i][0]}")`;
+    mainpicdiv[0].style.backgroundImage = `url("${localVar.values[i][1]}")`;
+    biopicdiv[0].style.backgroundImage = `url("${localVar.values[i][14]}")`;
+    catchphrasediv[0].innerHTML = localVar.values[i][15];
+    bionamediv[0].innerHTML = localVar.values[i][10];
+    classofdiv[0].innerHTML = "Class Of "+localVar.values[i][11];
+
+    addClickEventFunc(tempclone,i);
+
+    
   }
 }
