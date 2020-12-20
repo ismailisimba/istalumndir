@@ -1,7 +1,13 @@
-let localVar = "testing";
+
+let localVar = {"cloudobject":{},
+                "searchcontext":"all",
+              "searchResults":[{}],
+            "lastRow":0};
+
 
 let nodes = document.querySelectorAll(".childreninsidecontainer");
 let hiddenMenu = document.getElementById("detailedmenu");
+let genericTextArea = document.getElementById("myfancykey");
 
 /* detailed page updatable values */
 let title1 = document.getElementById("buztitle");
@@ -40,13 +46,15 @@ function mainFunc () {
 
  //  addClickEventFunc();
 
-   fetchInfoWithFilter ();
+  // fetchInfoWithFilter ();
     myasync();
+    searchBarStuff();
 
 
 
 
 }
+
 
 mainFunc();
 
@@ -69,15 +77,15 @@ function addClickEventFunc(element,i) {
 
                
 
-               title1.innerHTML = localVar.values[i][2];
-               description1.innerHTML = localVar.values[i][3];
-               email.innerHTML = localVar.values[i][9];
-               phoneone.innerHTML = localVar.values[i][6];
-               phonetwo.innerHTML = localVar.values[i][7];
-               phonethree.innerHTML = localVar.values[i][8];
-               map.innerHTML = localVar.values[i][13];
-               title2.innerHTML = localVar.values[i][10];
-               description2.innerHTML = localVar.values[i][12]
+               title1.innerHTML = localVar.cloudobject.busyobj[i].busyName;
+               description1.innerHTML = localVar.cloudobject.busyobj[i].busyDescription;
+               email.innerHTML = localVar.cloudobject.busyobj[i].email;
+               phoneone.innerHTML = localVar.cloudobject.busyobj[i].phoneOne;
+               phonetwo.innerHTML = localVar.cloudobject.busyobj[i].phoneTwo;
+               phonethree.innerHTML = localVar.cloudobject.busyobj[i].phoneThree;
+               map.innerHTML = localVar.cloudobject.busyobj[i].mapOne;
+               title2.innerHTML = localVar.cloudobject.busyobj[i].alumName;
+               description2.innerHTML = localVar.cloudobject.busyobj[i].alumBio;
 
               
 
@@ -145,13 +153,13 @@ async function fetchInfoWithFilter () {
 
           return returnVal; 
 
-       tempDiv.innerHTML = Object.entries(localVar.values)[0][1][3] ;   
+      // tempDiv.innerHTML = Object.entries(localVar.values)[0][1][3] ;   
 };
 
 
 async function myasync () {
 
-  localVar = await fetchInfoWithFilter();
+  localVar.cloudobject = await fetchInfoWithFilter();
 
   //hiddenMenu.innerHTML = localVar;
 
@@ -159,8 +167,8 @@ async function myasync () {
 
   motherDiv.innerHTML = "";
 
-  let boxes = localVar.lastrow;
-  spanNumall[0].innerHTML = (localVar.lastrow-1);
+  let boxes = localVar.cloudobject.lastRow;
+  spanNumall[0].innerHTML = (localVar.cloudobject.lastRow-1);
   boxes--;
 
  // motherDiv.appendChild(tempclone);
@@ -209,29 +217,100 @@ function addAnimation(element,i){
 
 function populatingBoxes (boxes, tempDiv) {
 
-  for (let i=0; i<boxes; i++){
+  for (let i=1; i<boxes; i++){
 
    var  tempclone = tempDiv.cloneNode(true);
     tempclone.id = "childnumindex"+i;
 
     motherDiv.appendChild(tempclone);
 
-    let logopicdiv = tempclone.querySelectorAll(".buzlogo");
+    let busytitlediv = tempclone.querySelectorAll(".busytitle");
     let mainpicdiv = tempclone.querySelectorAll(".children:last-child");
-    let biopicdiv = tempclone.querySelectorAll(".profpic");
+    let busylogo = tempclone.querySelectorAll(".seconddeets");
     let catchphrasediv = tempclone.querySelectorAll(".catchphrase");
     let bionamediv = tempclone.querySelectorAll(".profname");
     let classofdiv = tempclone.querySelectorAll(".classOf");
 
-    logopicdiv[0].style.backgroundImage = `url("${localVar.values[i][0]}")`;
-    mainpicdiv[0].style.backgroundImage = `url("${localVar.values[i][1]}")`;
-    biopicdiv[0].style.backgroundImage = `url("${localVar.values[i][14]}")`;
-    catchphrasediv[0].innerHTML = localVar.values[i][15];
-    bionamediv[0].innerHTML = localVar.values[i][10];
-    classofdiv[0].innerHTML = "Class Of "+localVar.values[i][11];
+    busytitlediv[0].innerHTML = localVar.cloudobject.busyobj[i].busyName;
+    mainpicdiv[0].style.backgroundImage = `url("${localVar.cloudobject.busyobj[i].mainImage}")`;
+    busylogo[0].style.backgroundImage = `url("${localVar.cloudobject.busyobj[i].logo}")`;
+    catchphrasediv[0].innerHTML = localVar.cloudobject.busyobj[i].catchphrase;
+    //bionamediv[0].innerHTML = localVar.cloudobject.busyobj[i].alumName;
+    //classofdiv[0].innerHTML = "Class Of "+localVar.cloudobject.busyobj[i].alumYear;
 
     addClickEventFunc(tempclone,i);
 
     
   }
 }
+
+
+function searchBarStuff() {
+
+  showHideType();
+  //document.querySelectorAll(".onethirdfancy")[0].innerHTML = "All Businesses In This Directory";
+  
+}
+
+
+function showHideType() {
+
+  let companyTypesSelect = document.getElementById("company-type-select");
+  let searchTypeSelect = document.getElementById("search-type-select");
+  let searchButton = document.getElementById("myfancysearchbut");
+  let fancyContainer = document.querySelectorAll(".onethirdfancy");
+  let alumniContainer = document.getElementById("alumni-type-select");
+  let mySearchQuery = document.querySelectorAll(".mysearchquery")[0];
+  fancyContainer = fancyContainer[0];
+  companyTypesSelect.remove();
+  genericTextArea.remove();
+  alumniContainer.remove();
+  fancyContainer.innerHTML = "";
+  let tempDiv = document.createElement("div");
+      tempDiv.innerHTML = "All Businesses";
+      fancyContainer.appendChild(tempDiv) ;
+      fancyContainer.appendChild(searchTypeSelect) ;
+      fancyContainer.appendChild(searchButton) ;
+
+  searchTypeSelect.addEventListener("input", function(){
+    let value = this.value;
+  fancyContainer.innerHTML = "";
+    if (value === "name") {
+      fancyContainer.appendChild(genericTextArea) ;
+      fancyContainer.appendChild(searchTypeSelect) ;
+      fancyContainer.appendChild(searchButton) ;
+      mySearchQuery.innerHTML = "loii";
+
+    }else if(value ==="alumni"){
+      fancyContainer.appendChild(alumniContainer) ;
+      fancyContainer.appendChild(searchTypeSelect) ;
+      fancyContainer.appendChild(searchButton) ;
+      mySearchQuery.innerHTML = "loisssi";
+
+    }else if(value ==="type"){
+
+      fancyContainer.appendChild(companyTypesSelect) ;
+      fancyContainer.appendChild(searchTypeSelect) ;
+      fancyContainer.appendChild(searchButton) ;
+      mySearchQuery.innerHTML = "loisoo99i";
+
+    }else if(value === "all") {
+      let tempDiv = document.createElement("div");
+      tempDiv.innerHTML = "All Businesses";
+      fancyContainer.appendChild(tempDiv) ;
+      fancyContainer.appendChild(searchTypeSelect) ;
+      fancyContainer.appendChild(searchButton) ;
+      mySearchQuery.innerHTML = "loiidnnndjjj,";
+    }else {
+      fancyContainer.innerHTML = "nnnn";
+    }
+
+  })
+
+
+}
+
+
+
+
+
