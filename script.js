@@ -28,6 +28,8 @@ let phonethree = document.getElementById("phonethree")
 
 let map = document.getElementById("map-div");
 
+let newBuzLogo = document.getElementById("mybuzlogo")
+
 
 let title2 = document.getElementById("alumname");
 let description2 = document.getElementById("descriptionalumbox");
@@ -36,7 +38,8 @@ let description2 = document.getElementById("descriptionalumbox");
 /* detailed page updatable values */
 
 document.getElementById("closearrow").addEventListener("click", function () {
-  hiddenMenu.style.visibility = "hidden";
+  motherDiv.innerHTML = "";
+  populatingBoxes (localVar.searchResults.length, cardDiv);
 });
 
 let spanNumall = document.getElementById("letitular").querySelectorAll("span");
@@ -46,7 +49,7 @@ let tempDiv = hiddenMenu;
 let reqString = "https://script.google.com/macros/s/AKfycbwePxUUAJRuhfdsKMe7ghiJYxEBSeroek9Z6xAA49XnjjN5cdY/exec"
 
 
-
+hiddenMenu.remove();
 
 function mainFunc () {
 
@@ -58,6 +61,7 @@ function mainFunc () {
     myasync();
     searchBarStuff();
     searchButStuff();
+    
 
 
 
@@ -432,7 +436,8 @@ function cardClickFunction (){
   //  hiddenMenu.style.visibility === "visible";
 
      
-        hiddenMenu.style.visibility = "visible";
+      //  hiddenMenu.style.visibility = "visible";
+        myNavigationGuru("cardToDetail");
 
     
        // title1.innerHTML = this.id;
@@ -440,19 +445,20 @@ function cardClickFunction (){
        let elementId = this.id;
        let elementIndex = elementId.charAt(elementId.length-1);
        let i = parseInt(elementIndex,10);
-       i=i+1;
+       
 
        
 
-        title1.innerHTML = localVar.cloudobject.busyobj[i].busyName;
-        description1.innerHTML = localVar.cloudobject.busyobj[i].busyDescription;
-        email.innerHTML = localVar.cloudobject.busyobj[i].email;
-        phoneone.innerHTML = localVar.cloudobject.busyobj[i].phoneOne;
-        phonetwo.innerHTML = localVar.cloudobject.busyobj[i].phoneTwo;
-        phonethree.innerHTML = localVar.cloudobject.busyobj[i].phoneThree;
-        map.innerHTML = localVar.cloudobject.busyobj[i].mapOne;
-        title2.innerHTML = localVar.cloudobject.busyobj[i].alumName;
-        description2.innerHTML = localVar.cloudobject.busyobj[i].alumBio;
+        title1.innerHTML = localVar.searchResults[i].busyName;
+        newBuzLogo.style.backgroundImage = `url(${localVar.searchResults[i].logo})`;
+        description1.innerHTML = localVar.searchResults[i].busyDescription;
+       email.innerHTML = localVar.searchResults[i].email;
+        phoneone.innerHTML = localVar.searchResults[i].phoneOne;
+        phonetwo.innerHTML = localVar.searchResults[i].phoneTwo;
+        phonethree.innerHTML = localVar.searchResults[i].phoneThree;
+        map.innerHTML = localVar.searchResults[i].mapOne;
+        title2.innerHTML = localVar.searchResults[i].alumName;
+        description2.innerHTML = localVar.searchResults[i].alumBio;
 
        
 
@@ -587,3 +593,31 @@ numOfResults = localVar.searchResults.length;
   mySearchQuery.innerHTML = searchInnerHtml;
 
 }
+
+
+
+
+function myNavigationGuru(navContext) {
+/*
+
+Responsible for navigation animations, not originally how this was planned,so umm, it's choppy i guess!
+
+it receives and perform actions by the following contexts: cardToDetail, detailToCards and much later searchAnime
+
+this is implemented now to beautify the details page
+
+*/
+
+if(navContext==="cardToDetail"){
+
+  motherDiv.innerHTML = "";
+  motherDiv.appendChild(hiddenMenu);
+  
+
+
+
+
+
+}else if(navContext==="detailToCards"){}
+
+};
