@@ -5,7 +5,14 @@ let localVar = {"cloudobject":{},
                 "searchKey":{  "type":"typeofkey",
                                "value":"valueofkey",
                                "textVal":"optionstext"},
-                "lastRow":0};
+                "lastRow":0,
+              "numOfLocations":0,
+            "locationObject":{"locMapOne":[],
+                              "locMapTwo":[],
+                              "locMapThree":[]},
+              "currAniico":"play",
+            "mouseEveValSet":0,
+          "prevScrollPos":0};
 
 let mySearchQuery = document.querySelectorAll(".mysearchquery")[0];
 let mySearchBut = document.getElementById("myfancysearchbut");
@@ -28,7 +35,21 @@ let phonethree = document.getElementById("phonethree")
 
 let map = document.getElementById("map-div");
 
-let newBuzLogo = document.getElementById("mybuzlogo")
+let locationBoxContainer = document.getElementById("locationsbox");
+
+let newBuzLogo = document.getElementById("mybuzlogo");
+let newBuzPic = document.getElementById("buzmainpic");
+
+let locationBoxes = locationBoxContainer.querySelectorAll(".locations");
+locationBoxes[0].remove();
+locationBoxes[1].remove();
+locationBoxes[2].remove();
+
+//let animationControll = document.querySelectorAll(".animecontrolbox")[0];
+let alumBusyIcon = document.querySelectorAll(".childalumbox")[0];
+
+
+
 
 
 let title2 = document.getElementById("alumname");
@@ -39,7 +60,13 @@ let description2 = document.getElementById("descriptionalumbox");
 
 document.getElementById("closearrow").addEventListener("click", function () {
   motherDiv.innerHTML = "";
+  locationBoxContainer.innerHTML = "";
+  mySearchQuery.innerHTML = "";
   populatingBoxes (localVar.searchResults.length, cardDiv);
+  window.scrollTo(0,localVar.prevScrollPos);
+
+  
+  
 });
 
 let spanNumall = document.getElementById("letitular").querySelectorAll("span");
@@ -55,7 +82,7 @@ function mainFunc () {
 
     
 
- //  addClickEventFunc();
+ 
 
   // fetchInfoWithFilter ();
     myasync();
@@ -77,11 +104,25 @@ function addClickEventFunc(element,i) {
   //  let styleTemp = window.getComputedStyle(hiddenMenu);
   
 
+       // addAnimation(element,i);
+        
+        element.querySelectorAll(".childreninsidecontainer")[0].addEventListener("click", cardClickFunction);
 
-        element.addEventListener("click", cardClickFunction);
+        element.addEventListener("mouseenter",doAnimationControllStuff);
+        element.addEventListener("touchstart",doAnimationControllStuff);
+
+        
 
       
-       addAnimation(element,i);
+
+          element.addEventListener("mouseleave",undoAnimationControllStuff);
+          element.addEventListener("touchend",undoAnimationControllStuff);
+
+    
+        
+
+      
+       
 
 
 
@@ -95,6 +136,13 @@ function removeClickEventFunc(element,i) {
 
 
         element.removeEventListener("click", cardClickFunction, false);
+
+        element.removeEventListener("mouseenter", doAnimationControllStuff, false);
+        element.removeEventListener("touchstart", doAnimationControllStuff, false);
+
+       element.removeEventListener("mouseleave", undoAnimationControllStuff, false);
+      element.removeEventListener("touchend", undoAnimationControllStuff, false);
+      
 
     
 
@@ -169,19 +217,6 @@ async function myasync () {
   spanNumall[0].innerHTML = (localVar.cloudobject.lastRow-1);
   
 
- // motherDiv.appendChild(tempclone);
-
-  /*for (let i=0; i<boxes; i++){
-
-    tempclone = tempDiv.cloneNode(true);
-    tempclone.id = "childnumindex"+i;
-
-    motherDiv.appendChild(tempclone);
-
-    addClickEventFunc(tempclone,i);
-
-    
-  }*/
 
 
   let context = "all";
@@ -205,6 +240,8 @@ function addAnimation(element,i){
   let tempDiv300 = element.querySelectorAll(".childreninsidecontainer");
   //tempDiv300[0].id = "childreninternal"+i;
 
+  element.querySelectorAll(".childalumbox")[0].style.opacity = "0.12";
+
   
 
 
@@ -213,6 +250,26 @@ function addAnimation(element,i){
     tempDiv300[0].classList.add("childrenrollleft");
   }else {
     tempDiv300[0].classList.add("childrenrollright");
+  }
+}
+
+
+
+function stopAnimation(element,i){
+
+  let tempDiv300 = element.querySelectorAll(".childreninsidecontainer");
+  //tempDiv300[0].id = "childreninternal"+i;
+
+  element.querySelectorAll(".childalumbox")[0].style.opacity = "1";
+
+  
+
+
+  if( i == 0 || i%2 == 0){
+    
+    tempDiv300[0].classList.remove("childrenrollleft");
+  }else {
+    tempDiv300[0].classList.remove("childrenrollright");
   }
 }
 
@@ -244,6 +301,7 @@ function populatingBoxes (boxes, myCardDiv) {
 
     removeClickEventFunc(tempclone,i);
     addClickEventFunc(tempclone,i);
+    doAlumnBusyStuff(i,"outsideCard",tempclone);
 
     
   }
@@ -439,10 +497,10 @@ function cardClickFunction (){
       //  hiddenMenu.style.visibility = "visible";
         myNavigationGuru("cardToDetail");
 
-    
-       // title1.innerHTML = this.id;
+     let myParentNode = this.parentNode;
+       title1.innerHTML = myParentNode.id;
 
-       let elementId = this.id;
+       let elementId = myParentNode.id;
        let elementIndex = elementId.charAt(elementId.length-1);
        let i = parseInt(elementIndex,10);
        
@@ -451,18 +509,37 @@ function cardClickFunction (){
 
         title1.innerHTML = localVar.searchResults[i].busyName;
         newBuzLogo.style.backgroundImage = `url(${localVar.searchResults[i].logo})`;
+        newBuzPic.style.backgroundImage = `url(${localVar.searchResults[i].mainImage})`
         description1.innerHTML = localVar.searchResults[i].busyDescription;
        email.innerHTML = localVar.searchResults[i].email;
-        phoneone.innerHTML = localVar.searchResults[i].phoneOne;
-        phonetwo.innerHTML = localVar.searchResults[i].phoneTwo;
-        phonethree.innerHTML = localVar.searchResults[i].phoneThree;
-        map.innerHTML = localVar.searchResults[i].mapOne;
-        title2.innerHTML = localVar.searchResults[i].alumName;
-        description2.innerHTML = localVar.searchResults[i].alumBio;
+       // phoneone.innerHTML = localVar.searchResults[i].phoneOne;
+       // phonetwo.innerHTML = localVar.searchResults[i].phoneTwo;
+       // phonethree.innerHTML = localVar.searchResults[i].phoneThree;
+        //map.innerHTML = localVar.searchResults[i].mapOne;
+
+       fillLocationAndMap(this,i);
+       doAlumnBusyStuff(i,"insideCard",tempDiv);
+
+      //  title2.innerHTML = localVar.searchResults[i].alumName;
+       // description2.innerHTML = localVar.searchResults[i].alumBio;
 
        
 
       // description1.innerHTML = i;
+
+      localVar.prevScrollPos = Math.floor(window.scrollY);
+
+      if(window.screen.width <1000){
+
+        window.scrollTo(0,500);
+
+      }else{
+
+        window.scrollTo(0,100);
+
+      }
+
+   
         
     
 }
@@ -621,3 +698,226 @@ if(navContext==="cardToDetail"){
 }else if(navContext==="detailToCards"){}
 
 };
+
+
+
+
+function fillLocationAndMap (element, givenIndex){
+  let locationOneValue = localVar.searchResults[givenIndex].locationOne;
+  let locationTwoValue = localVar.searchResults[givenIndex].locationTwo;
+  let locationThreeValue = localVar.searchResults[givenIndex].locationThree;
+
+  locationOneValue = locationOneValue.toString();
+  locationTwoValue = locationTwoValue.toString();
+  locationThreeValue = locationThreeValue.toString();
+
+ 
+
+  /*Remove empty boxes first before adding content */
+
+
+          if(locationOneValue.length>1){
+         
+         localVar.numOfLocations = localVar.numOfLocations + 1; 
+          }else{
+          
+          }
+
+
+          if(locationTwoValue.length>1){
+         
+         localVar.numOfLocations = localVar.numOfLocations + 1; 
+          }else{
+          
+          }
+
+
+          if(locationThreeValue.length>1){
+          
+          localVar.numOfLocations = localVar.numOfLocations + 1; 
+          }else{
+          
+          }
+
+          locationBoxContainer.innerHTML = "";
+
+          if(localVar.numOfLocations>0){
+
+
+         
+
+                          for(let i=0 ; i<localVar.numOfLocations ; i++){
+
+                            if(i==0){
+
+                              locationBoxContainer.appendChild(locationBoxes[i]); 
+                              locationBoxes[i].querySelectorAll(".locationnum")[0].innerHTML = localVar.searchResults[givenIndex].locationOne;
+                              document.getElementById("map-div").innerHTML = localVar.searchResults[givenIndex].mapOne;
+
+                              addMapClickForThisLocation(document.getElementById("map-div"),localVar.searchResults[givenIndex].mapOne,locationBoxes[i].querySelectorAll(".locationnum")[0]);
+
+                              locationBoxes[i].querySelectorAll(".phonenums")[0].innerHTML = localVar.searchResults[givenIndex].phoneOne;
+
+                            }else if(i==1){
+                              locationBoxContainer.appendChild(locationBoxes[i]); 
+                              locationBoxes[i].querySelectorAll(".locationnum")[0].innerHTML = localVar.searchResults[givenIndex].locationTwo;
+
+                              addMapClickForThisLocation(document.getElementById("map-div"),localVar.searchResults[givenIndex].mapTwo,locationBoxes[i].querySelectorAll(".locationnum")[0]);
+
+                              locationBoxes[i].querySelectorAll(".phonenums")[0].innerHTML = localVar.searchResults[givenIndex].phoneTwo;
+                              
+                            }else{
+                              locationBoxContainer.appendChild(locationBoxes[i]); 
+                              locationBoxes[i].querySelectorAll(".locationnum")[0].innerHTML = localVar.searchResults[givenIndex].locationThree;
+
+                              addMapClickForThisLocation(document.getElementById("map-div"),localVar.searchResults[givenIndex].mapThree,locationBoxes[i].querySelectorAll(".locationnum")[0]);
+
+                              locationBoxes[i].querySelectorAll(".phonenums")[0].innerHTML = localVar.searchResults[givenIndex].phoneThree;
+
+                            }
+
+                          
+                            
+
+                          }
+
+
+
+               }
+
+          mySearchQuery.innerHTML = "Detailed Card";
+
+          localVar.numOfLocations = 0;
+
+  
+
+
+
+}
+
+
+
+
+function addMapClickForThisLocation(mapContainer,mapCode,locationTitElement){
+
+  locationTitElement.removeEventListener("click",titleMapClickFunc,false);
+  locationTitElement.addEventListener("click",titleMapClickFunc);
+
+
+
+          function titleMapClickFunc (){
+
+            mapContainer.innerHTML = mapCode;
+            
+          }
+
+}
+
+
+
+
+
+function doAnimationControllStuff() {
+
+  let animationControll = this.querySelectorAll(".animecontrolbox")[0];
+ // sty = "visible";
+
+  animationControll.removeEventListener("click",cardClickFunction) 
+  animationControll.addEventListener("click",myTemp3000Func) ;
+  
+   let elementId = this.id;
+  let elementIndex = elementId.charAt(elementId.length-1);
+  let i = parseInt(elementIndex,10); 
+  addAnimation(this,i)
+  
+
+  function myTemp3000Func(){
+  //  let animationControll = document.querySelectorAll(".animecontrolbox")[0];
+  let elementId = this.parentNode.id;
+  let elementIndex = elementId.charAt(elementId.length-1);
+  let i = parseInt(elementIndex,10); 
+  
+        
+    if(localVar.currAniico==="play"){
+     animationControll.style.backgroundImage = `url(${"https://www.istafrica.com/uploaded/Elementary_Communications_Department/2020-21/secopenhouse1/play-ico.png"})`
+      localVar.currAniico = "pause";
+
+     
+      stopAnimation(this.parentNode,i)
+     // animationControll.innerHTML = this.parentNode.id;
+    }else{
+      animationControll.style.backgroundImage = `url(${"https://www.istafrica.com/uploaded/Elementary_Communications_Department/2020-21/secopenhouse1/pause-ico.png"})`
+      localVar.currAniico = "play";
+      addAnimation(this.parentNode,i)
+      //animationControll.innerHTML = this.parentNode.className;
+    }
+
+    
+ // event.stopstopPropagation();
+    }
+
+
+}
+
+
+function undoAnimationControllStuff() {
+
+  let animationControll = this.querySelectorAll(".animecontrolbox")[0];
+  sty = "collapse";
+ // animationControll.removeEventListener("click",myTemp3000Func,false) ;
+
+ let elementId = this.id;
+ let elementIndex = elementId.charAt(elementId.length-1);
+ let i = parseInt(elementIndex,10); 
+ stopAnimation(this,i)
+
+
+}
+
+
+
+function doAlumnBusyStuff(i,context,element){
+
+  if(context==="insideCard"){
+
+    let alumStatus = localVar.searchResults[i].alumStatus
+
+    if(alumStatus === "yes"){
+      document.getElementById("alumname").innerHTML = localVar.searchResults[i].alumName;
+      document.getElementById("descriptionalumbox").innerHTML = localVar.searchResults[i].alumBio;
+
+      document.getElementById("linebreak").style.visibility = "visible";
+      document.getElementById("alinfo").style.visibility = "visible";
+
+    }else{
+      document.getElementById("linebreak").style.visibility = "collapse";
+      document.getElementById("alinfo").style.visibility = "collapse";
+    }
+
+  }else{
+
+
+
+
+
+
+    let alumStatus = localVar.searchResults[i].alumStatus
+
+    if(alumStatus === "yes"){
+
+      element.querySelectorAll(".childalumbox")[0].style.visibility = "visible";
+     
+
+    }else{
+      element.querySelectorAll(".childalumbox")[0].style.visibility = "collapse";
+
+
+    }
+
+
+  }
+
+  
+};
+
+
