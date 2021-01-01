@@ -35,6 +35,8 @@ let phonethree = document.getElementById("phonethree")
 
 let map = document.getElementById("map-div");
 
+
+
 let locationBoxContainer = document.getElementById("locationsbox");
 
 let newBuzLogo = document.getElementById("mybuzlogo");
@@ -498,14 +500,14 @@ function cardClickFunction (){
         myNavigationGuru("cardToDetail");
 
      let myParentNode = this.parentNode;
-       title1.innerHTML = myParentNode.id;
+     //  title1.innerHTML = myParentNode.id;
 
        let elementId = myParentNode.id;
-       let elementIndex = elementId.charAt(elementId.length-1);
+       let elementIndex = elementId.slice(13);
        let i = parseInt(elementIndex,10);
        
 
-       
+       title1.innerHTML= elementIndex;
 
         title1.innerHTML = localVar.searchResults[i].busyName;
         newBuzLogo.style.backgroundImage = `url(${localVar.searchResults[i].logo})`;
@@ -825,8 +827,8 @@ function doAnimationControllStuff() {
   animationControll.removeEventListener("click",cardClickFunction) 
   animationControll.addEventListener("click",myTemp3000Func) ;
   
-   let elementId = this.id;
-  let elementIndex = elementId.charAt(elementId.length-1);
+  let elementId = this.id;
+  let elementIndex = elementId.slice(13);
   let i = parseInt(elementIndex,10); 
   addAnimation(this,i)
   
@@ -834,7 +836,7 @@ function doAnimationControllStuff() {
   function myTemp3000Func(){
   //  let animationControll = document.querySelectorAll(".animecontrolbox")[0];
   let elementId = this.parentNode.id;
-  let elementIndex = elementId.charAt(elementId.length-1);
+  let elementIndex = elementId.slice(13);
   let i = parseInt(elementIndex,10); 
   
         
@@ -867,12 +869,15 @@ function undoAnimationControllStuff() {
  // animationControll.removeEventListener("click",myTemp3000Func,false) ;
 
  let elementId = this.id;
- let elementIndex = elementId.charAt(elementId.length-1);
- let i = parseInt(elementIndex,10); 
- stopAnimation(this,i)
+ let elementIndex = elementId.slice(13);
+ let i = parseInt(elementIndex,10);
+  
+ stopAnimation(this,i);
 
 
 }
+
+
 
 
 
