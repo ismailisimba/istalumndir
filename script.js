@@ -32,6 +32,7 @@ let email = document.getElementById("buzemail");
 let phoneone = document.getElementById("phoneone");
 let phonetwo = document.getElementById("phonetwo")
 let phonethree = document.getElementById("phonethree")
+let website = document.getElementById("buzweblink");
 
 let map = document.getElementById("map-div");
 
@@ -514,6 +515,8 @@ function cardClickFunction (){
         newBuzPic.style.backgroundImage = `url(${localVar.searchResults[i].mainImage})`
         description1.innerHTML = localVar.searchResults[i].busyDescription;
        email.innerHTML = localVar.searchResults[i].email;
+       website.querySelectorAll("a")[0].href = "https://"+localVar.searchResults[i].website;
+       website.querySelectorAll("a")[0].innerHTML = localVar.searchResults[i].website;
        // phoneone.innerHTML = localVar.searchResults[i].phoneOne;
        // phonetwo.innerHTML = localVar.searchResults[i].phoneTwo;
        // phonethree.innerHTML = localVar.searchResults[i].phoneThree;
@@ -787,7 +790,7 @@ function fillLocationAndMap (element, givenIndex){
 
                }
 
-          mySearchQuery.innerHTML = "Detailed Card";
+         // mySearchQuery.innerHTML = "Detailed Card";
 
           localVar.numOfLocations = 0;
 
@@ -888,7 +891,7 @@ function doAlumnBusyStuff(i,context,element){
     let alumStatus = localVar.searchResults[i].alumStatus
 
     if(alumStatus === "yes"){
-      document.getElementById("alumname").innerHTML = localVar.searchResults[i].alumName;
+      document.getElementById("alumname").innerHTML = localVar.searchResults[i].alumName +" - Class of " + localVar.searchResults[i].alumYear;
       document.getElementById("descriptionalumbox").innerHTML = localVar.searchResults[i].alumBio;
 
       document.getElementById("linebreak").style.visibility = "visible";
@@ -924,5 +927,6 @@ function doAlumnBusyStuff(i,context,element){
 
   
 };
+
 
 
